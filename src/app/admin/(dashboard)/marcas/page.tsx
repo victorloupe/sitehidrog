@@ -2,6 +2,7 @@ import { getBrands } from "@/lib/queries";
 import { hasSupabase } from "@/lib/supabase/client";
 import NewBrandForm from "@/components/admin/NewBrandForm";
 import DeleteEntityButton from "@/components/admin/DeleteEntityButton";
+import EditBrandImage from "@/components/admin/EditBrandImage";
 
 export const dynamic = "force-dynamic";
 
@@ -27,26 +28,20 @@ export default async function MarcasAdminPage() {
           <thead className="bg-slate-50 text-left text-xs uppercase text-slate-500">
             <tr>
               <th className="px-4 py-3">Marca</th>
-              <th className="px-4 py-3">Slug</th>
+              <th className="px-4 py-3">Logo</th>
               <th className="px-4 py-3"></th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
             {brands.map((brand) => (
               <tr key={brand.id} className="hover:bg-slate-50">
-                <td className="px-4 py-3 font-medium text-slate-800">{brand.name}</td>
-                <td className="px-4 py-3 text-slate-500">{brand.slug}</td>
-                <td className="px-4 py-3 text-right">
-                  <DeleteEntityButton
-                    endpoint={`/api/admin/marcas/${brand.id}`}
-                    confirmMessage={`Excluir a marca "${brand.name}"?`}
-                  />
+                <td className="px-4 py-3 align-top font-medium text-slate-800">
+                  {brand.name}
+                  <p className="mt-0.5 text-xs font-normal text-slate-400">{brand.slug}</p>
                 </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  );
-}
+                <td className="px-4 py-3 align-top">
+                  <EditBrandImage brand={brand} />
+                </td>
+                <td className="px-4 py-3 text-right align-top">
+                  <DeleteEntityButton
+                  

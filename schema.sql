@@ -176,18 +176,25 @@ create policy "public read variation_groups" on variation_groups for select usin
 drop policy if exists "public read variation_options" on variation_options;
 create policy "public read variation_options" on variation_options for select using (true);
 
+-- Envio de cotação liberado para qualquer visitante (insert),
+-- leitura/edição/exclusão restrita ao admin autenticado.
+drop policy if exists "public insert quotes" on quotes;
+create policy "public insert quotes" on quotes for insert with check (true);
+drop policy if exists "admin read quotes" on quotes;
+create policy "admin read quotes" on quotes for select using (auth.role() = 'authenticated');
+drop policy if exists "admin update quotes" on quotes;
+create policy "admin update quotes" on quotes for update using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
+drop policy if exists "admin delete quotes" on quotes;
+create policy "admin delete quotes" on quotes for delete using (auth.role() = 'authenticated');
+
+drop policy if exists "public insert quote_items" on quote_items;
+create policy "public insert quote_items" on quote_items for insert with check (true);
+drop policy if exists "admin read quote_items" on quote_items;
+create policy "admin read quote_items" on quote_items for select using (auth.role() = 'authenticated');
+drop policy if exists "admin delete quote_items" on quote_items;
+create policy "admin delete quote_items" on quote_items for delete using (auth.role() = 'authenticated');
+
 -- Escrita do catálogo somente para usuários autenticados (admin)
 drop policy if exists "admin write brands" on brands;
 create policy "admin write brands" on brands for all using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
-drop policy if exists "admin write categories" on categories;
-create policy "admin write categories" on categories for all using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
-drop policy if exists "admin write products" on products;
-create policy "admin write products" on products for all using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
-drop policy if exists "admin write product_images" on product_images;
-create policy "admin write product_images" on product_images for all using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
-drop policy if exists "admin write product_specs" on product_specs;
-create policy "admin write product_specs" on product_specs for all using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
-drop policy if exists "admin write variation_groups" on variation_groups;
-create policy "admin write variation_groups" on variation_groups for all using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
-drop policy if exists "admin write variation_options" on variation_options;
-create policy "admin write variation_options" on variation_options for all using (auth.role() = 'authenticated') with check (auth.role() =
+drop policy if exists "admin write cate

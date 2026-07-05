@@ -1,4 +1,16 @@
-import { Brand, Category, Product } from "./types";
+import { Brand, Category, Product, SiteSettings } from "./types";
+
+// Valores usados enquanto o Supabase não está configurado, ou como
+// fallback caso a tabela site_settings ainda não tenha sido criada/rodada.
+export const defaultSiteSettings: SiteSettings = {
+  phone: "(17) 3216-5760",
+  whatsapp_number: "5517981548788",
+  whatsapp_display: "(17) 98154-8788",
+  email: "hidro.g@hotmail.com",
+  address: "Rua Feres Bucater, nº 1461 - São José do Rio Preto - SP",
+  instagram_url: "https://instagram.com/hidrogbombas",
+  facebook_url: "https://facebook.com/hidrogbombas",
+};
 
 export const mockCategories: Category[] = [
   { id: "cat-1", name: "Bombas Submersas", slug: "bombas-submersas", image_url: "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=600", parent_id: null, show_in_menu: true },
@@ -752,19 +764,4 @@ export function getMockProductBySlug(slug: string): Product | undefined {
 }
 
 export function getMockRelatedProducts(product: Product, limit = 4): Product[] {
-  return mockProducts
-    .filter((p) => p.id !== product.id && p.category_id === product.category_id)
-    .slice(0, limit)
-    .concat(
-      mockProducts.filter((p) => p.id !== product.id && p.category_id !== product.category_id).slice(0, Math.max(0, limit - 1))
-    )
-    .slice(0, limit);
-}
-
-export function getMockCategoryBySlug(slug: string): Category | undefined {
-  return mockCategories.find((c) => c.slug === slug);
-}
-
-export function getMockBrandBySlug(slug: string): Brand | undefined {
-  return mockBrands.find((b) => b.slug === slug);
-}
+  return mockProduct

@@ -1,11 +1,11 @@
 import Link from "next/link";
 import { Phone, Mail, MapPin } from "lucide-react";
-import { getCategories } from "@/lib/queries";
+import { getCategories, getSiteSettings } from "@/lib/queries";
 import CartIcon from "./CartIcon";
 import CategoryNav from "./CategoryNav";
 
 export default async function Header() {
-  const categories = await getCategories();
+  const [categories, settings] = await Promise.all([getCategories(), getSiteSettings()]);
 
   return (
     <header className="sticky top-0 z-50 bg-white shadow-sm">
@@ -14,13 +14,18 @@ export default async function Header() {
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-1.5 text-xs">
           <div className="flex items-center gap-5">
             <span className="flex items-center gap-1.5">
-              <Phone size={13} /> (17) 3216-5760
+              <Phone size={13} /> {settings.phone}
             </span>
-            <a href="https://api.whatsapp.com/send?phone=5517981548788" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 transition-colors hover:text-brand">
-              <Phone size={13} /> WhatsApp (17) 98154-8788
+            <a
+              href={`https://api.whatsapp.com/send?phone=${settings.whatsapp_number}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 transition-colors hover:text-brand"
+            >
+              <Phone size={13} /> WhatsApp {settings.whatsapp_display}
             </a>
             <span className="flex items-center gap-1.5">
-              <Mail size={13} /> hidro.g@hotmail.com
+              <Mail size={13} /> {settings.email}
             </span>
             <span className="flex items-center gap-1.5">
               <MapPin size={13} /> Atendemos todo o Brasil
@@ -45,6 +50,7 @@ export default async function Header() {
             <input
               type="text"
               name="q"
+              aria-label="Buscar produtos"
               placeholder="Buscar bombas, pressurizadores, tubos..."
               className="w-full rounded-l-full border border-slate-200 bg-slate-50 px-5 py-2.5 text-sm text-slate-900 transition-colors focus:border-brand focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand/30"
             />
@@ -67,17 +73,8 @@ export default async function Header() {
             <input
               type="text"
               name="q"
+              aria-label="Buscar produtos"
               placeholder="Buscar produtos..."
               className="w-full rounded-l-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-900 focus:outline-none"
             />
-            <button type="submit" className="rounded-r-full bg-brand-dark px-4 py-2 text-sm font-semibold text-white">
-              Buscar
-            </button>
-          </form>
-        </div>
-      </div>
-
-      <CategoryNav categories={categories} />
-    </header>
-  );
-}
+            <button type="submi

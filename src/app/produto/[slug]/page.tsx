@@ -1,13 +1,39 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import { getBrands, getCategories, getProductBySlug, getRelatedProducts } from "@/lib/queries";
 import Gallery from "@/components/product/Gallery";
 import SpecsTable from "@/components/product/SpecsTable";
 import AddToQuoteForm from "@/components/product/AddToQuoteForm";
 import RelatedProducts from "@/components/product/RelatedProducts";
 
-export const dynamic = "force-dynamic";
+// ISR: a página é gerada estaticamente e revalidada a cada 60s, em vez de
+// buscar no banco a cada request (force-dynamic anterior deixava toda
+// visita mais lenta e sem cache).
+export const revalidate = 60;
 
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const product = await getProductBySlug(slug);
+  if (!product) return {};
+
+  const description =
+    product.short_description || product.description || "Confira este produto HidroG e monte sua cotação.";
+
+  return {
+    title: product.name,
+    description,
+    openGraph: {
+      title: product.name,
+      description,
+      images: product.main_image_url ? [{ url: product.main_image_url }] : undefined,
+    },
+  };
+}
 
 export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -66,30 +92,4 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
               {product.price.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
             </p>
           ) : (
-            <p className="mt-4 text-lg font-semibold text-slate-600">Consulte o preço</p>
-          )}
-
-          <div className="mt-6 border-t border-slate-200 pt-6">
-            <AddToQuoteForm product={product} />
-          </div>
-        </div>
-      </div>
-
-      {product.description && (
-        <div className="mt-12 max-w-3xl">
-          <h2 className="mb-3 text-xl font-bold text-slate-800">Descrição</h2>
-          <p className="leading-relaxed text-slate-600">{product.description}</p>
-        </div>
-      )}
-
-      {product.specs.length > 0 && (
-        <div className="mt-8 max-w-3xl">
-          <h2 className="mb-3 text-xl font-bold text-slate-800">Especificações técnicas</h2>
-          <SpecsTable specs={product.specs} />
-        </div>
-      )}
-
-      <RelatedProducts products={related} />
-    </div>
-  );
-}
+            <p className="mt-4 text-lg font-semib

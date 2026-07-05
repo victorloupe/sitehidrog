@@ -1,3 +1,13 @@
+export type SiteSettings = {
+  phone: string;
+  whatsapp_number: string;
+  whatsapp_display: string;
+  email: string;
+  address: string;
+  instagram_url: string;
+  facebook_url: string;
+};
+
 export type Category = {
   id: string;
   name: string;
@@ -64,27 +74,13 @@ export type CartItem = {
   quantity: number;
   selectedVariations: SelectedVariation[];
   notes?: string;
+  // Item de descrição livre, adicionado quando o cliente não encontra o
+  // produto no catálogo (ver CustomItemForm). Não corresponde a um
+  // produto real, então não deve ser linkado nem enviado como product_id.
+  isCustom?: boolean;
 };
 
 export type QuoteSubmission = {
   customer_name: string;
   document_number?: string;
-  document_type?: "cpf" | "cnpj";
-  email?: string;
-  phone?: string;
-  address_zip?: string;
-  address_street: string;
-  address_number?: string;
-  address_complement?: string;
-  address_neighborhood?: string;
-  address_city: string;
-  address_state: string;
-  notes?: string;
-  items: CartItem[];
-};
-
-export type Quote = QuoteSubmission & {
-  id: string;
-  status: "novo" | "em_andamento" | "respondido" | "finalizado";
-  created_at: string;
-};
+  document_t

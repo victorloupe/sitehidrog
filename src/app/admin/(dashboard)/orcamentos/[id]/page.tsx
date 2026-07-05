@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowLeft, MessageCircle } from "lucide-react";
 import { getQuoteById } from "@/lib/admin-data";
 import QuoteStatusSelect from "@/components/admin/QuoteStatusSelect";
+import AutoPrint from "@/components/admin/AutoPrint";
 
 export const dynamic = "force-dynamic";
 
@@ -14,13 +15,17 @@ export default async function QuoteDetailPage({ params }: { params: Promise<{ id
 
   return (
     <div>
-      <Link href="/admin/orcamentos" className="mb-4 flex items-center gap-1 text-sm text-slate-500 hover:text-brand-dark">
+      <AutoPrint />
+
+      <Link href="/admin/orcamentos" className="mb-4 flex items-center gap-1 text-sm text-slate-500 hover:text-brand-dark print:hidden">
         <ArrowLeft size={16} /> Voltar
       </Link>
 
       <div className="mb-6 flex items-center justify-between">
         <h1 className="text-2xl font-bold text-slate-900">Orçamento de {quote.customer_name}</h1>
-        <QuoteStatusSelect quoteId={quote.id} initialStatus={quote.status} />
+        <div className="print:hidden">
+          <QuoteStatusSelect quoteId={quote.id} initialStatus={quote.status} />
+        </div>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
@@ -94,7 +99,7 @@ export default async function QuoteDetailPage({ params }: { params: Promise<{ id
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-4 flex w-full items-center justify-center gap-2 rounded-md bg-[#25D366] px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#1ebe5a]"
+                className="mt-4 flex w-full items-center justify-center gap-2 rounded-md bg-[#25D366] px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#1ebe5a] print:hidden"
               >
                 <MessageCircle size={16} /> Conversar no WhatsApp
               </a>
@@ -115,11 +120,4 @@ export default async function QuoteDetailPage({ params }: { params: Promise<{ id
             </p>
           </div>
 
-          <p className="text-xs text-slate-400">
-            Recebido em {new Date(quote.created_at).toLocaleString("pt-BR")}
-          </p>
-        </div>
-      </div>
-    </div>
-  );
-}
+          <p className="text-x

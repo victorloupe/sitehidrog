@@ -50,7 +50,9 @@ export async function POST(req: NextRequest) {
 
   const items = body.items.map((item) => ({
     quote_id: quoteRow.id,
-    product_id: item.productId,
+    // Itens personalizados (ver CustomItemForm) não correspondem a um
+    // produto real do catálogo, então não têm product_id.
+    product_id: item.isCustom ? null : item.productId,
     product_name_snapshot: item.productName,
     selected_variations: item.selectedVariations,
     quantity: item.quantity,
@@ -59,8 +61,4 @@ export async function POST(req: NextRequest) {
 
   const { error: itemsError } = await supabase.from("quote_items").insert(items);
   if (itemsError) {
-    return NextResponse.json({ error: itemsError.message }, { status: 500 });
-  }
-
-  return NextResponse.json({ ok: true, id: quoteRow.id, mode: "supabase" });
-}
+    

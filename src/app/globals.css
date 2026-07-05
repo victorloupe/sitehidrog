@@ -59,6 +59,11 @@ body {
   100% { background-position: 200% 0; }
 }
 
+@keyframes marqueeScroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
 .animate-fade-in-up {
   animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
@@ -73,6 +78,14 @@ body {
 
 .animate-float {
   animation: floatSlow 4s ease-in-out infinite;
+}
+
+.animate-marquee {
+  animation: marqueeScroll 60s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
 }
 
 .reveal {
@@ -111,16 +124,4 @@ body {
   right: 0.5rem;
   bottom: 0.15rem;
   height: 2px;
-  background: var(--brand-blue);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.25s ease;
-}
-.nav-underline:hover::after {
-  transform: scaleX(1);
-}
-
-::selection {
-  background: var(--brand-blue);
-  color: white;
-}
+  backgr

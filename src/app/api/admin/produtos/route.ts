@@ -1,8 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { hasSupabase } from "@/lib/supabase/client";
 import { createClient as createServerSupabase } from "@/lib/supabase/server";
+import { requireAdmin } from "@/lib/auth";
 
 export async function POST(req: NextRequest) {
+  if (!(await requireAdmin())) {
+    return NextResponse.json({ error: "Não autorizado." }, { status: 401 });
+  }
   if (!hasSupabase) {
     return NextResponse.json(
       { error: "Conecte o Supabase para cadastrar produtos reais (veja README.md)." },
@@ -66,13 +70,4 @@ export async function POST(req: NextRequest) {
           group.options.map((o: any, j: number) => ({
             group_id: groupRow.id,
             value: o.value,
-            price_delta: o.price_delta ?? 0,
-            sort_order: j,
-          }))
-        );
-      }
-    }
-  }
-
-  return NextResponse.json({ ok: true, id: product.id });
-}
+            price_

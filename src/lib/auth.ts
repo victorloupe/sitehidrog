@@ -8,8 +8,7 @@
 // Modo local (sem Supabase): usada apenas para testar o painel antes
 // de conectar o banco de dados real. A senha vem de ADMIN_LOCAL_PASSWORD
 // no .env.local (padrão: "admin123" — troque antes de usar em produção).
-export const ADMIN_SESSION_COOKIE = "sitehidrog_admin_session";
+import { cookies } from "next/headers";
+import { hasSupabase, createClient as createServerSupabase } from "@/lib/supabase/server";
 
-export function getLocalAdminPassword() {
-  return process.env.ADMIN_LOCAL_PASSWORD || "admin123";
-}
+export const ADMIN_SESSION_COOKIE 

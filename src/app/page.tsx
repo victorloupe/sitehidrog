@@ -2,16 +2,18 @@ import Hero from "@/components/home/Hero";
 import CategoryGrid from "@/components/home/CategoryGrid";
 import BestSellers from "@/components/home/BestSellers";
 import BrandStrip from "@/components/home/BrandStrip";
+import HelpAndNewsletter from "@/components/home/HelpAndNewsletter";
 import Reveal from "@/components/ui/Reveal";
-import { getBestSellers, getBrands, getCategories } from "@/lib/queries";
+import { getBestSellers, getBrands, getCategories, getSiteSettings } from "@/lib/queries";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 export default async function HomePage() {
-  const [categories, bestSellers, brands] = await Promise.all([
+  const [categories, bestSellers, brands, settings] = await Promise.all([
     getCategories(),
     getBestSellers(8),
     getBrands(),
+    getSiteSettings(),
   ]);
 
   return (
@@ -21,11 +23,4 @@ export default async function HomePage() {
         <CategoryGrid categories={categories} />
       </Reveal>
       <Reveal>
-        <BestSellers products={bestSellers} />
-      </Reveal>
-      <Reveal>
-        <BrandStrip brands={brands} />
-      </Reveal>
-    </>
-  );
-}
+        <BestSellers products={bestSell

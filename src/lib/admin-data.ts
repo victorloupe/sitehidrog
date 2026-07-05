@@ -1,6 +1,7 @@
 import { hasSupabase } from "./supabase/client";
 import { createClient as createServerSupabase } from "./supabase/server";
 import { getLocalQuotes, updateLocalQuoteStatus } from "./quotes-store";
+import { getLocalSubscribers, deleteLocalSubscriber, NewsletterSubscriber } from "./newsletter-store";
 import { Quote } from "./types";
 
 export async function getQuotes(): Promise<Quote[]> {
@@ -53,6 +54,4 @@ export async function updateQuoteStatus(id: string, status: Quote["status"]): Pr
     await updateLocalQuoteStatus(id, status);
     return;
   }
-  const supabase = await createServerSupabase();
-  await supabase.from("quotes").update({ status }).eq("id", id);
-}
+  const supab

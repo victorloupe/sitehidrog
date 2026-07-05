@@ -1,7 +1,14 @@
+import type { Metadata } from "next";
 import { getAllProducts } from "@/lib/queries";
 import ProductCard from "@/components/ui/ProductCard";
 
 export const dynamic = "force-dynamic";
+
+// Página de resultados de busca: conteúdo varia por query string e não
+// agrega valor único para buscadores, então fica fora do índice.
+export const metadata: Metadata = {
+  robots: { index: false, follow: true },
+};
 
 
 export default async function SearchPage({
@@ -27,14 +34,4 @@ export default async function SearchPage({
       <p className="mb-6 text-sm text-slate-500">{results.length} produto(s) encontrado(s)</p>
 
       {results.length === 0 ? (
-        <p className="text-slate-500">Nenhum produto encontrado. Tente outro termo de busca.</p>
-      ) : (
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
-          {results.map((p) => (
-            <ProductCard key={p.id} product={p} />
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
+        <p className="text-slate-500">Nenhum produto encontrado

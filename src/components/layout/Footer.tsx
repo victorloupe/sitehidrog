@@ -1,32 +1,25 @@
 import Link from "next/link";
-import { Phone, Mail, MapPin, Lock } from "lucide-react";
-import { getCategories } from "@/lib/queries";
+import { Phone, Mail, MapPin, Lock, MessageCircle } from "lucide-react";
+import { FacebookIcon, InstagramIcon } from "@/components/ui/SocialIcons";
+import { getCategories, getSiteSettings } from "@/lib/queries";
 
 export default async function Footer() {
-  const categories = await getCategories();
+  const [categories, settings] = await Promise.all([getCategories(), getSiteSettings()]);
 
   return (
-    <footer className="mt-16 bg-slate-900 text-slate-300">
+    <footer className="bg-slate-900 text-slate-300">
       <div className="mx-auto grid max-w-7xl gap-8 px-4 py-12 md:grid-cols-4">
         <div>
-          <h3 className="mb-1 text-xl font-bold text-white">
-            HIDRO<span className="text-slate-400">G</span>
-          </h3>
-          <p className="mb-3 text-xs font-medium uppercase tracking-wider text-slate-400">
-            Materiais para poços artesianos
-          </p>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/logohidrog.png"
+            alt="HidroG - Materiais para poços artesianos"
+            className="mb-4 h-14 w-auto sm:h-16"
+          />
           <p className="text-sm leading-relaxed text-slate-400">
             Somos uma loja online especializada na venda de materiais para poços artesianos: bombas submersas, painéis,
             cabos PP, conexões e acessórios, com atendimento especializado. Solicite sua cotação sem compromisso.
           </p>
-          <div className="mt-4 flex gap-3">
-            <a href="https://facebook.com/hidrogbombas" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-800 text-xs font-bold transition-all duration-200 hover:scale-110 hover:bg-brand">
-              f
-            </a>
-            <a href="https://instagram.com/hidrogbombas" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-800 text-xs font-bold transition-all duration-200 hover:scale-110 hover:bg-pink-600">
-              ig
-            </a>
-          </div>
         </div>
 
         <div>
@@ -47,9 +40,9 @@ export default async function Footer() {
           <ul className="space-y-2 text-sm">
             <li><Link href="/" className="inline-block transition-all duration-200 hover:translate-x-1 hover:text-brand">Home</Link></li>
             <li><Link href="/carrinho" className="inline-block transition-all duration-200 hover:translate-x-1 hover:text-brand">Minha cotação</Link></li>
-            <li><a href="#" className="inline-block transition-all duration-200 hover:translate-x-1 hover:text-brand">Sobre a loja</a></li>
-            <li><a href="#" className="inline-block transition-all duration-200 hover:translate-x-1 hover:text-brand">Trocas e garantia</a></li>
-            <li><a href="#" className="inline-block transition-all duration-200 hover:translate-x-1 hover:text-brand">Política de privacidade</a></li>
+            <li><Link href="/sobre" className="inline-block transition-all duration-200 hover:translate-x-1 hover:text-brand">Sobre a loja</Link></li>
+            <li><Link href="/trocas-e-garantia" className="inline-block transition-all duration-200 hover:translate-x-1 hover:text-brand">Trocas e garantia</Link></li>
+            <li><Link href="/politica-de-privacidade" className="inline-block transition-all duration-200 hover:translate-x-1 hover:text-brand">Política de privacidade</Link></li>
             <li>
               <Link
                 href="/admin"
@@ -64,21 +57,34 @@ export default async function Footer() {
         <div>
           <h4 className="mb-3 font-semibold text-white">Contato</h4>
           <ul className="space-y-2 text-sm">
-            <li className="flex items-center gap-2"><Phone size={14} /> (17) 3216-5760</li>
+            <li className="flex items-center gap-2"><Phone size={14} /> {settings.phone}</li>
             <li className="flex items-center gap-2">
-              <a href="https://api.whatsapp.com/send?phone=5517981548788" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 transition-all duration-200 hover:translate-x-1 hover:text-brand">
-                <Phone size={14} /> WhatsApp: (17) 98154-8788
+              <a
+                href={`https://api.whatsapp.com/send?phone=${settings.whatsapp_number}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 transition-all duration-200 hover:translate-x-1 hover:text-brand"
+              >
+                <MessageCircle size={14} className="text-[#25D366]" /> {settings.whatsapp_display}
               </a>
             </li>
-            <li className="flex items-center gap-2"><Mail size={14} /> hidro.g@hotmail.com</li>
-            <li className="flex items-center gap-2"><MapPin size={14} /> Atendemos todo o Brasil</li>
+            <li className="flex items-center gap-2"><Mail size={14} /> {settings.email}</li>
+            <li className="flex items-center gap-2">
+              <a
+                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(settings.address)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 transition-all duration-200 hover:translate-x-1 hover:text-brand"
+              >
+                <MapPin size={14} /> {settings.address}
+              </a>
+            </li>
           </ul>
-        </div>
-      </div>
 
-      <div className="border-t border-slate-800 py-4 text-center text-xs text-slate-500">
-        Pereira e Pereira Bombas e Tubos — CNPJ: 12.835.772/0001-22 · © {new Date().getFullYear()} HidroG. Todos os direitos reservados.
-      </div>
-    </footer>
-  );
-}
+          <div className="mt-4 flex items-center gap-3">
+            <a
+              href={settings.instagram_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+              className="flex h-8 w-8 items-center justify-center rounded-full bg-

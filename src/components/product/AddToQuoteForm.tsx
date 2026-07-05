@@ -69,14 +69,18 @@ export default function AddToQuoteForm({ product }: { product: Product }) {
           <button
             type="button"
             onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+            aria-label="Diminuir quantidade"
             className="px-3 py-1.5 text-lg font-medium text-slate-600 hover:bg-slate-100"
           >
             −
           </button>
-          <span className="w-10 text-center text-sm font-semibold">{quantity}</span>
+          <span className="w-10 text-center text-sm font-semibold" aria-live="polite">
+            {quantity}
+          </span>
           <button
             type="button"
             onClick={() => setQuantity((q) => q + 1)}
+            aria-label="Aumentar quantidade"
             className="px-3 py-1.5 text-lg font-medium text-slate-600 hover:bg-slate-100"
           >
             +
@@ -106,10 +110,4 @@ export default function AddToQuoteForm({ product }: { product: Product }) {
       </div>
 
       {added && (
-        <p className="flex items-center gap-2 text-sm font-medium text-green-700">
-          <CheckCircle2 size={16} /> Produto adicionado à sua cotação!
-        </p>
-      )}
-    </div>
-  );
-}
+        <p className="flex items-center gap-2 text-sm font-mediu

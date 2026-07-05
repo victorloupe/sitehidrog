@@ -4,10 +4,11 @@ import {
   mockBrands,
   mockCategories,
   mockProducts,
+  defaultSiteSettings,
   getMockProductBySlug,
   getMockRelatedProducts,
 } from "./mock-data";
-import { Brand, Category, Product } from "./types";
+import { Brand, Category, Product, SiteSettings } from "./types";
 
 function mapProductRow(row: any): Product {
   return {
@@ -114,5 +115,4 @@ export async function getProductsByCategorySlug(slug: string): Promise<Product[]
   const categories = await getCategories();
   const category = categories.find((c) => c.slug === slug);
   if (!category) return [];
-  return all.filter((p) => p.category_id === category.id);
-}
+  return all.filter((p) 
