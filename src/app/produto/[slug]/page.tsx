@@ -55,6 +55,13 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
     indisponivel: { text: "Indisponível", className: "bg-red-100 text-red-700" },
   }[product.stock_status];
 
+  // A galeria (product_images) é opcional — muitos produtos só têm a
+  // imagem principal cadastrada. Garante que ela sempre apareça primeiro,
+  // mesmo sem fotos extras.
+  const galleryImages = product.main_image_url
+    ? [product.main_image_url, ...product.images.filter((img) => img !== product.main_image_url)]
+    : product.images;
+
   return (
     <div className="mx-auto max-w-7xl px-4 py-8">
       <nav className="mb-6 flex flex-wrap items-center gap-1 text-xs text-slate-500">
@@ -72,7 +79,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       </nav>
 
       <div className="grid gap-10 md:grid-cols-2">
-        <Gallery images={product.images} alt={product.name} />
+        <Gallery images={galleryImages} alt={product.name} />
 
         <div>
           {brand && <p className="mb-1 text-sm font-semibold text-brand-dark">{brand.name}</p>}
