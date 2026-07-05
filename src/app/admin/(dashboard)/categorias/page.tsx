@@ -44,4 +44,15 @@ export default async function CategoriasAdminPage() {
                 </td>
                 <td className="px-4 py-3 text-right align-top">
                   <DeleteEntityButton
-          
+                    endpoint={`/api/admin/categorias/${cat.id}`}
+                    confirmMessage={`Excluir a categoria "${cat.name}"?`}
+                  />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}

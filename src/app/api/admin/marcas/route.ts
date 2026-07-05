@@ -15,4 +15,8 @@ export async function POST(req: NextRequest) {
   const { error } = await supabase.from("brands").insert({
     name: body.name,
     slug: body.slug,
-    logo_ur
+    logo_url: body.logo_url || null,
+  });
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  return NextResponse.json({ ok: true });
+}

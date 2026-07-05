@@ -197,4 +197,105 @@ create policy "admin delete quote_items" on quote_items for delete using (auth.r
 -- Escrita do catálogo somente para usuários autenticados (admin)
 drop policy if exists "admin write brands" on brands;
 create policy "admin write brands" on brands for all using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
-drop policy if exists "admin write cate
+drop policy if exists "admin write categories" on categories;
+create policy "admin write categories" on categories for all using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
+drop policy if exists "admin write products" on products;
+create policy "admin write products" on products for all using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
+drop policy if exists "admin write product_images" on product_images;
+create policy "admin write product_images" on product_images for all using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
+drop policy if exists "admin write product_specs" on product_specs;
+create policy "admin write product_specs" on product_specs for all using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
+drop policy if exists "admin write variation_groups" on variation_groups;
+create policy "admin write variation_groups" on variation_groups for all using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
+drop policy if exists "admin write variation_options" on variation_options;
+create policy "admin write variation_options" on variation_options for all using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
+
+-- =============================================================
+-- STORAGE (imagens de produtos e categorias enviadas pelo painel admin)
+-- Rode este bloco também no SQL Editor do Supabase — sem ele, o botão
+-- de upload de imagens do painel admin retorna erro "Bucket not found".
+-- =============================================================
+
+insert into storage.buckets (id, name, public)
+values ('product-images', 'product-images', true)
+on conflict (id) do nothing;
+
+drop policy if exists "public read product-images" on storage.objects;
+create policy "public read product-images" on storage.objects
+  for select using (bucket_id = 'product-images');
+
+drop policy if exists "admin upload product-images" on storage.objects;
+create policy "admin upload product-images" on storage.objects
+  for insert to authenticated with check (bucket_id = 'product-images');
+
+drop policy if exists "admin update product-images" on storage.objects;
+create policy "admin update product-images" on storage.objects
+  for update to authenticated using (bucket_id = 'product-images');
+
+drop policy if exists "admin delete product-images" on storage.objects;
+create policy "admin delete product-images" on storage.objects
+  for delete to authenticated using (bucket_id = 'product-images');
+
+-- =============================================================
+-- SITE SETTINGS (telefone, whatsapp, e-mail, endereço, redes sociais)
+-- Uma única linha (id = 1), editável em /admin/configuracoes.
+-- =============================================================
+
+create table if not exists site_settings (
+  id int primary key default 1,
+  phone text,
+  whatsapp_number text,
+  whatsapp_display text,
+  email text,
+  address text,
+  instagram_url text,
+  facebook_url text,
+  updated_at timestamptz default now(),
+  constraint site_settings_single_row check (id = 1)
+);
+
+insert into site_settings (id, phone, whatsapp_number, whatsapp_display, email, address, instagram_url, facebook_url)
+values (
+  1,
+  '(17) 3216-5760',
+  '5517981548788',
+  '(17) 98154-8788',
+  'hidro.g@hotmail.com',
+  'Rua Feres Bucater, nº 1461 - São José do Rio Preto - SP',
+  'https://instagram.com/hidrogbombas',
+  'https://facebook.com/hidrogbombas'
+)
+on conflict (id) do nothing;
+
+alter table site_settings enable row level security;
+
+drop policy if exists "public read site_settings" on site_settings;
+create policy "public read site_settings" on site_settings for select using (true);
+
+drop policy if exists "admin write site_settings" on site_settings;
+create policy "admin write site_settings" on site_settings for all using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
+
+-- =============================================================
+-- NEWSLETTER (captura de e-mail na home, "Receba nossas ofertas")
+-- Qualquer visitante pode se inscrever; só o admin lê/exclui a lista,
+-- em /admin/newsletter. Não há envio de e-mail automático — é só a
+-- captura, o disparo de campanhas fica por sua conta (ex: exportar o
+-- CSV e importar num serviço como Mailchimp/Brevo).
+-- =============================================================
+
+create table if not exists newsletter_subscribers (
+  id uuid primary key default gen_random_uuid(),
+  email text not null unique,
+  created_at timestamptz default now()
+);
+
+alter table newsletter_subscribers enable row level security;
+
+drop policy if exists "public insert newsletter_subscribers" on newsletter_subscribers;
+create policy "public insert newsletter_subscribers" on newsletter_subscribers for insert with check (true);
+
+drop policy if exists "admin read newsletter_subscribers" on newsletter_subscribers;
+create policy "admin read newsletter_subscribers" on newsletter_subscribers for select using (auth.role() = 'authenticated');
+
+drop policy if exists "admin delete newsletter_subscribers" on newsletter_subscribers;
+create policy "admin delete newsletter_subscribers" on newsletter_subscribers for delete using (auth.role() = 'authenticated');

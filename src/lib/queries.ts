@@ -115,4 +115,21 @@ export async function getProductsByCategorySlug(slug: string): Promise<Product[]
   const categories = await getCategories();
   const category = categories.find((c) => c.slug === slug);
   if (!category) return [];
-  return all.filter((p) 
+  return all.filter((p) => p.category_id === category.id);
+}
+
+export async function getSiteSettings(): Promise<SiteSettings> {
+  if (!hasSupabase) return defaultSiteSettings;
+  const supabase = await createServerSupabase();
+  const { data, error } = await supabase.from("site_settings").select("*").eq("id", 1).single();
+  if (error || !data) return defaultSiteSettings;
+  return {
+    phone: data.phone || defaultSiteSettings.phone,
+    whatsapp_number: data.whatsapp_number || defaultSiteSettings.whatsapp_number,
+    whatsapp_display: data.whatsapp_display || defaultSiteSettings.whatsapp_display,
+    email: data.email || defaultSiteSettings.email,
+    address: data.address || defaultSiteSettings.address,
+    instagram_url: data.instagram_url || defaultSiteSettings.instagram_url,
+    facebook_url: data.facebook_url || defaultSiteSettings.facebook_url,
+  };
+}

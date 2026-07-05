@@ -87,4 +87,26 @@ export default async function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Instagram"
-              className="flex h-8 w-8 items-center justify-center rounded-full bg-
+              className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-800 text-white transition-all duration-200 hover:scale-110 hover:bg-pink-600"
+            >
+              <InstagramIcon size={15} />
+            </a>
+            <a
+              href={settings.facebook_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Facebook"
+              className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-800 text-white transition-all duration-200 hover:scale-110 hover:bg-brand"
+            >
+              <FacebookIcon size={15} />
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div className="border-t border-slate-800 py-4 text-center text-xs text-slate-500">
+        Hidro G Bombas Submersas LTDA. — CNPJ: 12.835.772/0001-22 · © {new Date().getFullYear()} HidroG. Todos os direitos reservados.
+      </div>
+    </footer>
+  );
+}

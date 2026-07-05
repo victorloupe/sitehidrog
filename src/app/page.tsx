@@ -23,4 +23,14 @@ export default async function HomePage() {
         <CategoryGrid categories={categories} />
       </Reveal>
       <Reveal>
-        <BestSellers products={bestSell
+        <BestSellers products={bestSellers} />
+      </Reveal>
+      <Reveal>
+        <BrandStrip brands={brands} />
+      </Reveal>
+      <Reveal>
+        <HelpAndNewsletter whatsappNumber={settings.whatsapp_number} />
+      </Reveal>
+    </>
+  );
+}

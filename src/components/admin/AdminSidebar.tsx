@@ -36,4 +36,12 @@ export default function AdminSidebar() {
         <Link
           href="/"
           target="_blank"
-          className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium tex
+          className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition-colors"
+        >
+          <ExternalLink size={16} /> Ver loja
+        </Link>
+        <LogoutButton />
+      </div>
+    </aside>
+  );
+}

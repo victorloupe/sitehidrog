@@ -92,4 +92,10 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
   }
   const { id } = await params;
   if (!hasSupabase) {
-    return NextResponse.json({ error: "Conecte o Supabase para excluir produtos reais." },
+    return NextResponse.json({ error: "Conecte o Supabase para excluir produtos reais." }, { status: 400 });
+  }
+  const supabase = await createServerSupabase();
+  const { error } = await supabase.from("products").delete().eq("id", id);
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+  return NextResponse.json({ ok: true });
+}

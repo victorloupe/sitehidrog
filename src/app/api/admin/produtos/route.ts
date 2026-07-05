@@ -70,4 +70,13 @@ export async function POST(req: NextRequest) {
           group.options.map((o: any, j: number) => ({
             group_id: groupRow.id,
             value: o.value,
-            price_
+            price_delta: o.price_delta ?? 0,
+            sort_order: j,
+          }))
+        );
+      }
+    }
+  }
+
+  return NextResponse.json({ ok: true, id: product.id });
+}

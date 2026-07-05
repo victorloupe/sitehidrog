@@ -77,4 +77,14 @@ export default async function Header() {
               placeholder="Buscar produtos..."
               className="w-full rounded-l-full border border-slate-200 bg-slate-50 px-4 py-2 text-sm text-slate-900 focus:outline-none"
             />
-            <button type="submi
+            <button type="submit" className="rounded-r-full bg-brand-dark px-4 py-2 text-sm font-semibold text-white">
+              Buscar
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <CategoryNav categories={categories} />
+    </header>
+  );
+}

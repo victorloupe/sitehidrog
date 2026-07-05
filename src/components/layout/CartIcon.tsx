@@ -32,4 +32,11 @@ export default function CartIcon() {
         <span
           className={`absolute -top-2 -right-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-brand-dark px-1 text-xs font-bold text-white ${
             bounce ? "animate-bounce-once" : ""
-   
+          }`}
+        >
+          {totalItems}
+        </span>
+      )}
+    </Link>
+  );
+}

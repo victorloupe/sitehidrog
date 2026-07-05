@@ -11,3 +11,5 @@ export default function BestSellers({ products }: { products: Product[] }) {
         ))}
       </div>
     </section>
+  );
+}

@@ -124,4 +124,16 @@ body {
   right: 0.5rem;
   bottom: 0.15rem;
   height: 2px;
-  backgr
+  background: var(--brand-blue);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+.nav-underline:hover::after {
+  transform: scaleX(1);
+}
+
+::selection {
+  background: var(--brand-blue);
+  color: white;
+}

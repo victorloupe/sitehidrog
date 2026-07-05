@@ -31,4 +31,27 @@ export default function Hero() {
             <h1 className="text-xl font-bold leading-tight drop-shadow-md sm:text-2xl md:text-4xl">
               Bombas submersas, painéis, cabos PP e conexões para o seu poço artesiano
             </h1>
-            <p className="mt-2 max-w-md text-sm text-wh
+            <p className="mt-2 max-w-md text-sm text-white/90 drop-shadow-md sm:mt-3 md:text-base">
+              Monte sua lista de produtos, envie seus dados e nossa equipe retorna com o melhor orçamento — sem
+              compromisso.
+            </p>
+            <div className="relative mt-3 flex flex-wrap gap-2 sm:mt-5 sm:gap-3">
+              <Link
+                href="#mais-vendidos"
+                className="rounded-full bg-white px-4 py-2 text-xs font-semibold text-brand-dark transition-all hover:bg-sky-50 hover:shadow-lg active:scale-95 sm:px-6 sm:py-3 sm:text-sm"
+              >
+                Ver mais vendidos
+              </Link>
+              <Link
+                href="/carrinho"
+                className="rounded-full border border-white/60 px-4 py-2 text-xs font-semibold text-white transition-all hover:bg-white/10 active:scale-95 sm:px-6 sm:py-3 sm:text-sm"
+              >
+                Minha cotação
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}

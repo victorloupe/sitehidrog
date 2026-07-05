@@ -764,4 +764,19 @@ export function getMockProductBySlug(slug: string): Product | undefined {
 }
 
 export function getMockRelatedProducts(product: Product, limit = 4): Product[] {
-  return mockProduct
+  return mockProducts
+    .filter((p) => p.id !== product.id && p.category_id === product.category_id)
+    .slice(0, limit)
+    .concat(
+      mockProducts.filter((p) => p.id !== product.id && p.category_id !== product.category_id).slice(0, Math.max(0, limit - 1))
+    )
+    .slice(0, limit);
+}
+
+export function getMockCategoryBySlug(slug: string): Category | undefined {
+  return mockCategories.find((c) => c.slug === slug);
+}
+
+export function getMockBrandBySlug(slug: string): Brand | undefined {
+  return mockBrands.find((b) => b.slug === slug);
+}

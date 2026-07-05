@@ -63,4 +63,73 @@ export default async function OrcamentosPage({
         </div>
         <div>
           <label className="mb-1 block text-xs font-medium text-slate-600">Status</label>
-          <select name="status" defaultValue={sp.st
+          <select name="status" defaultValue={sp.status ?? ""} className="rounded-md border border-slate-300 px-3 py-2 text-sm">
+            <option value="">Todos</option>
+            <option value="novo">Novo</option>
+            <option value="em_andamento">Em andamento</option>
+            <option value="respondido">Respondido</option>
+            <option value="finalizado">Finalizado</option>
+          </select>
+        </div>
+        <button type="submit" className="rounded-md bg-brand-dark px-4 py-2 text-sm font-semibold text-white hover:bg-[#0b5a87]">
+          Filtrar
+        </button>
+        {hasFilter && (
+          <Link href="/admin/orcamentos" className="text-sm font-medium text-slate-500 hover:text-brand-dark">
+            Limpar filtros
+          </Link>
+        )}
+      </form>
+
+      <div className="overflow-hidden rounded-lg border border-slate-200 bg-white">
+        <table className="w-full text-sm">
+          <thead className="bg-slate-50 text-left text-xs uppercase text-slate-500">
+            <tr>
+              <th className="px-4 py-3">Cliente</th>
+              <th className="px-4 py-3">Cidade/UF</th>
+              <th className="px-4 py-3">Itens</th>
+              <th className="px-4 py-3">Data</th>
+              <th className="px-4 py-3">Status</th>
+              <th className="px-4 py-3"></th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-slate-100">
+            {quotes.map((quote) => {
+              const status = STATUS_LABELS[quote.status] ?? STATUS_LABELS.novo;
+              return (
+                <tr key={quote.id} className="hover:bg-slate-50">
+                  <td className="px-4 py-3">
+                    <Link href={`/admin/orcamentos/${quote.id}`} className="font-medium text-slate-800 hover:text-brand-dark">
+                      {quote.customer_name}
+                    </Link>
+                  </td>
+                  <td className="px-4 py-3 text-slate-600">
+                    {quote.address_city}/{quote.address_state}
+                  </td>
+                  <td className="px-4 py-3 text-slate-600">{quote.items.length}</td>
+                  <td className="px-4 py-3 text-slate-500">
+                    {new Date(quote.created_at).toLocaleDateString("pt-BR")}
+                  </td>
+                  <td className="px-4 py-3">
+                    <span className={`rounded-full px-2.5 py-1 text-xs font-semibold ${status.className}`}>
+                      {status.label}
+                    </span>
+                  </td>
+                  <td className="px-4 py-3">
+                    <QuoteActions quoteId={quote.id} customerName={quote.customer_name} phone={quote.phone} />
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+        {quotes.length === 0 && (
+          <p className="p-6 text-center text-sm text-slate-500">
+            {hasFilter ? "Nenhum orçamento encontrado com esses filtros." : "Nenhum orçamento ainda."}
+          </p>
+        )}
+        <Pagination page={page} totalPages={totalPages} searchParams={sp} />
+      </div>
+    </div>
+  );
+}

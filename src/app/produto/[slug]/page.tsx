@@ -92,4 +92,30 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
               {product.price.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
             </p>
           ) : (
-            <p className="mt-4 text-lg font-semib
+            <p className="mt-4 text-lg font-semibold text-slate-600">Consulte o preço</p>
+          )}
+
+          <div className="mt-6 border-t border-slate-200 pt-6">
+            <AddToQuoteForm product={product} />
+          </div>
+        </div>
+      </div>
+
+      {product.description && (
+        <div className="mt-12 max-w-3xl">
+          <h2 className="mb-3 text-xl font-bold text-slate-800">Descrição</h2>
+          <p className="leading-relaxed text-slate-600">{product.description}</p>
+        </div>
+      )}
+
+      {product.specs.length > 0 && (
+        <div className="mt-8 max-w-3xl">
+          <h2 className="mb-3 text-xl font-bold text-slate-800">Especificações técnicas</h2>
+          <SpecsTable specs={product.specs} />
+        </div>
+      )}
+
+      <RelatedProducts products={related} />
+    </div>
+  );
+}

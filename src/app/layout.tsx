@@ -21,4 +21,20 @@ export const metadata: Metadata = {
     siteName: "HidroG",
     title: "HidroG - Materiais para Poços Artesianos",
     description:
-      "Bombas submersas, painéis, cabos PP, conexões e 
+      "Bombas submersas, painéis, cabos PP, conexões e acessórios para poços artesianos.",
+  },
+};
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="pt-BR" suppressHydrationWarning>
+      <body className="antialiased bg-white text-slate-900" suppressHydrationWarning>
+        <CartProvider>
+          <SiteChrome header={<Header />} footer={<Footer />}>
+            {children}
+          </SiteChrome>
+        </CartProvider>
+      </body>
+    </html>
+  );
+}

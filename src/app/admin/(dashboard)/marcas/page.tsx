@@ -44,4 +44,15 @@ export default async function MarcasAdminPage() {
                 </td>
                 <td className="px-4 py-3 text-right align-top">
                   <DeleteEntityButton
-                  
+                    endpoint={`/api/admin/marcas/${brand.id}`}
+                    confirmMessage={`Excluir a marca "${brand.name}"?`}
+                  />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}

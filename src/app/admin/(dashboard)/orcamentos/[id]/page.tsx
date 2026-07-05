@@ -120,4 +120,11 @@ export default async function QuoteDetailPage({ params }: { params: Promise<{ id
             </p>
           </div>
 
-          <p className="text-x
+          <p className="text-xs text-slate-400">
+            Recebido em {new Date(quote.created_at).toLocaleString("pt-BR")}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}

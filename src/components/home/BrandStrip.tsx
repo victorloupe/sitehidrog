@@ -16,4 +16,19 @@ export default function BrandStrip({ brands }: { brands: Brand[] }) {
               <div
                 key={`${brand.id}-${i}`}
                 title={brand.name}
-                className="flex h-20 w-20 shrink-0 items-center justify-center bg-white p-2.5 transition-transform du
+                className="flex h-20 w-20 shrink-0 items-center justify-center bg-white p-2.5 transition-transform duration-300 hover:-translate-y-0.5 sm:h-24 sm:w-24"
+              >
+                {brand.logo_url ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={brand.logo_url} alt={brand.name} className="h-full w-full object-contain" />
+                ) : (
+                  <span className="text-center text-xs font-semibold leading-tight text-slate-400">{brand.name}</span>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}

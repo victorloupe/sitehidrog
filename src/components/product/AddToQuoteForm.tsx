@@ -110,4 +110,10 @@ export default function AddToQuoteForm({ product }: { product: Product }) {
       </div>
 
       {added && (
-        <p className="flex items-center gap-2 text-sm font-mediu
+        <p className="flex items-center gap-2 text-sm font-medium text-green-700">
+          <CheckCircle2 size={16} /> Produto adicionado à sua cotação!
+        </p>
+      )}
+    </div>
+  );
+}

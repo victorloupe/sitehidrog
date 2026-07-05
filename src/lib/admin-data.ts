@@ -54,4 +54,28 @@ export async function updateQuoteStatus(id: string, status: Quote["status"]): Pr
     await updateLocalQuoteStatus(id, status);
     return;
   }
-  const supab
+  const supabase = await createServerSupabase();
+  await supabase.from("quotes").update({ status }).eq("id", id);
+}
+
+export async function getNewsletterSubscribers(): Promise<NewsletterSubscriber[]> {
+  if (!hasSupabase) return getLocalSubscribers();
+
+  const supabase = await createServerSupabase();
+  const { data, error } = await supabase
+    .from("newsletter_subscribers")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error || !data) return [];
+  return data as NewsletterSubscriber[];
+}
+
+export async function deleteNewsletterSubscriber(id: string): Promise<void> {
+  if (!hasSupabase) {
+    await deleteLocalSubscriber(id);
+    return;
+  }
+  const supabase = await createServerSupabase();
+  await supabase.from("newsletter_subscribers").delete().eq("id", id);
+}

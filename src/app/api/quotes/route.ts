@@ -61,4 +61,8 @@ export async function POST(req: NextRequest) {
 
   const { error: itemsError } = await supabase.from("quote_items").insert(items);
   if (itemsError) {
-    
+    return NextResponse.json({ error: itemsError.message }, { status: 500 });
+  }
+
+  return NextResponse.json({ ok: true, id: quoteRow.id, mode: "supabase" });
+}

@@ -83,4 +83,22 @@ export type CartItem = {
 export type QuoteSubmission = {
   customer_name: string;
   document_number?: string;
-  document_t
+  document_type?: "cpf" | "cnpj";
+  email?: string;
+  phone?: string;
+  address_zip?: string;
+  address_street: string;
+  address_number?: string;
+  address_complement?: string;
+  address_neighborhood?: string;
+  address_city: string;
+  address_state: string;
+  notes?: string;
+  items: CartItem[];
+};
+
+export type Quote = QuoteSubmission & {
+  id: string;
+  status: "novo" | "em_andamento" | "respondido" | "finalizado";
+  created_at: string;
+};

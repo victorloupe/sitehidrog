@@ -23,4 +23,11 @@ export default function CategoryGrid({ categories }: { categories: Category[] })
               )}
             </div>
             <span className="text-[11px] font-medium leading-tight text-slate-700 group-hover:text-brand-dark sm:text-xs">
- 
+              {cat.name}
+            </span>
+          </Link>
+        ))}
+      </div>
+    </section>
+  );
+}
