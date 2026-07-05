@@ -49,7 +49,7 @@ export async function POST(req: NextRequest) {
 
   if (body.specs?.length) {
     await supabase.from("product_specs").insert(
-      body.specs.map((s: any, i: number) => ({
+      body.specs.map((s: { spec_name: string; spec_value: string }, i: number) => ({
         product_id: product.id,
         spec_name: s.spec_name,
         spec_value: s.spec_value,
@@ -67,7 +67,7 @@ export async function POST(req: NextRequest) {
         .single();
       if (groupRow) {
         await supabase.from("variation_options").insert(
-          group.options.map((o: any, j: number) => ({
+          group.options.map((o: { value: string; price_delta?: number }, j: number) => ({
             group_id: groupRow.id,
             value: o.value,
             price_delta: o.price_delta ?? 0,

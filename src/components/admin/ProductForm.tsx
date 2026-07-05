@@ -3,7 +3,7 @@
 import { useState, useRef, FormEvent, DragEvent } from "react";
 import { useRouter } from "next/navigation";
 import { Brand, Category, Product } from "@/lib/types";
-import { Plus, Trash2, ImageOff, UploadCloud, Loader2 } from "lucide-react";
+import { Plus, Trash2, UploadCloud, Loader2 } from "lucide-react";
 
 function slugify(text: string) {
   return text

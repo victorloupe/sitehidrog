@@ -22,15 +22,17 @@ export async function generateMetadata({
   const product = await getProductBySlug(slug);
   if (!product) return {};
 
-  const description =
-    product.short_description || product.description || "Confira este produto HidroG e monte sua cotação.";
+  const rawDescription = product.short_description || product.description || "";
+  const cleanDescription = rawDescription
+    ? rawDescription.replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim().substring(0, 160)
+    : "Confira este produto HidroG e monte sua cotação.";
 
   return {
     title: product.name,
-    description,
+    description: cleanDescription,
     openGraph: {
       title: product.name,
-      description,
+      description: cleanDescription,
       images: product.main_image_url ? [{ url: product.main_image_url }] : undefined,
     },
   };

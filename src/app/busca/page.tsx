@@ -24,6 +24,7 @@ export default async function SearchPage({
         (p) =>
           p.name.toLowerCase().includes(term) ||
           (p.short_description ?? "").toLowerCase().includes(term) ||
+          (p.description ?? "").toLowerCase().includes(term) ||
           (p.sku ?? "").toLowerCase().includes(term)
       )
     : [];

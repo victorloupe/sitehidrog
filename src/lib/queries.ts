@@ -10,7 +10,50 @@ import {
 } from "./mock-data";
 import { Brand, Category, Product, SiteSettings } from "./types";
 
-function mapProductRow(row: any): Product {
+interface DBProductImage {
+  url: string;
+  sort_order?: number;
+}
+
+interface DBSpec {
+  spec_name: string;
+  spec_value: string;
+  sort_order?: number;
+}
+
+interface DBVariationOption {
+  id: string;
+  value: string;
+  price_delta?: number | string | null;
+}
+
+interface DBVariationGroup {
+  id: string;
+  name: string;
+  variation_options?: DBVariationOption[];
+}
+
+interface DBProductRow {
+  id: string;
+  name: string;
+  slug: string;
+  short_description: string | null;
+  description: string | null;
+  category_id: string | null;
+  brand_id: string | null;
+  sku: string | null;
+  price: number | null;
+  show_price: boolean;
+  is_best_seller: boolean;
+  is_active: boolean;
+  stock_status: "disponivel" | "sob_consulta" | "indisponivel";
+  main_image_url: string;
+  product_images?: DBProductImage[];
+  product_specs?: DBSpec[];
+  variation_groups?: DBVariationGroup[];
+}
+
+function mapProductRow(row: DBProductRow): Product {
   return {
     id: row.id,
     name: row.name,
@@ -27,15 +70,15 @@ function mapProductRow(row: any): Product {
     stock_status: row.stock_status,
     main_image_url: row.main_image_url,
     images: (row.product_images ?? [])
-      .sort((a: any, b: any) => (a.sort_order ?? 0) - (b.sort_order ?? 0))
-      .map((i: any) => i.url),
+      .sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0))
+      .map((i) => i.url),
     specs: (row.product_specs ?? [])
-      .sort((a: any, b: any) => (a.sort_order ?? 0) - (b.sort_order ?? 0))
-      .map((s: any) => ({ spec_name: s.spec_name, spec_value: s.spec_value })),
-    variations: (row.variation_groups ?? []).map((g: any) => ({
+      .sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0))
+      .map((s) => ({ spec_name: s.spec_name, spec_value: s.spec_value })),
+    variations: (row.variation_groups ?? []).map((g) => ({
       id: g.id,
       name: g.name,
-      options: (g.variation_options ?? []).map((o: any) => ({
+      options: (g.variation_options ?? []).map((o) => ({
         id: o.id,
         value: o.value,
         price_delta: Number(o.price_delta ?? 0),

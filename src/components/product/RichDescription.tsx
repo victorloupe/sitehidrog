@@ -4,6 +4,17 @@
 // "--DETALHES DO PRODUTO", "--OBSERVAÇÕES"). Assim dá pra colar a
 // descrição já pronta de um produto antigo direto no campo do admin.
 export default function RichDescription({ text }: { text: string }) {
+  const isHtml = /<[a-z][\s\S]*>/i.test(text);
+
+  if (isHtml) {
+    return (
+      <div
+        className="text-slate-600 leading-relaxed [&_p]:mb-3 [&_strong]:text-slate-800 [&_ul]:list-disc [&_ul]:pl-5 [&_li]:mb-1 [&_br]:content-['']"
+        dangerouslySetInnerHTML={{ __html: text }}
+      />
+    );
+  }
+
   const lines = text.split(/\r?\n/);
 
   return (

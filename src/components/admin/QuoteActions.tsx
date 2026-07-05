@@ -9,10 +9,12 @@ export default function QuoteActions({
   quoteId,
   customerName,
   phone,
+  redirectOnDelete,
 }: {
   quoteId: string;
   customerName: string;
   phone?: string;
+  redirectOnDelete?: string;
 }) {
   const router = useRouter();
   const [deleting, setDeleting] = useState(false);
@@ -27,7 +29,11 @@ export default function QuoteActions({
         alert(data.error ?? "Erro ao excluir.");
         return;
       }
-      router.refresh();
+      if (redirectOnDelete) {
+        router.push(redirectOnDelete);
+      } else {
+        router.refresh();
+      }
     } finally {
       setDeleting(false);
     }

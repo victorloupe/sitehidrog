@@ -24,8 +24,10 @@ export default function ProductCard({ product }: { product: Product }) {
         <h3 className="line-clamp-2 text-sm font-medium text-slate-800 transition-colors group-hover:text-brand-dark">
           {product.name}
         </h3>
-        {product.short_description && (
-          <p className="mt-1 line-clamp-2 text-xs text-slate-500">{product.short_description}</p>
+        {(product.short_description || product.description) && (
+          <p className="mt-1 line-clamp-2 text-xs text-slate-500">
+            {product.short_description || (product.description ? product.description.replace(/<[^>]*>/g, "").trim() : "")}
+          </p>
         )}
         <div className="mt-auto pt-3">
           {product.show_price && product.price ? (

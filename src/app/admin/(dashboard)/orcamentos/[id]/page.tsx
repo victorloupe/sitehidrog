@@ -4,6 +4,7 @@ import { ArrowLeft, MessageCircle } from "lucide-react";
 import { getQuoteById } from "@/lib/admin-data";
 import QuoteStatusSelect from "@/components/admin/QuoteStatusSelect";
 import AutoPrint from "@/components/admin/AutoPrint";
+import QuoteActions from "@/components/admin/QuoteActions";
 
 export const dynamic = "force-dynamic";
 
@@ -21,9 +22,15 @@ export default async function QuoteDetailPage({ params }: { params: Promise<{ id
         <ArrowLeft size={16} /> Voltar
       </Link>
 
-      <div className="mb-6 flex items-center justify-between">
+      <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
         <h1 className="text-2xl font-bold text-slate-900">Orçamento de {quote.customer_name}</h1>
-        <div className="print:hidden">
+        <div className="flex items-center gap-3 print:hidden">
+          <QuoteActions
+            quoteId={quote.id}
+            customerName={quote.customer_name}
+            phone={quote.phone ?? undefined}
+            redirectOnDelete="/admin/orcamentos"
+          />
           <QuoteStatusSelect quoteId={quote.id} initialStatus={quote.status} />
         </div>
       </div>
