@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getBrands, getCategories, getProductBySlug, getRelatedProducts } from "@/lib/queries";
 import Gallery from "@/components/product/Gallery";
+import RichDescription from "@/components/product/RichDescription";
 import SpecsTable from "@/components/product/SpecsTable";
 import AddToQuoteForm from "@/components/product/AddToQuoteForm";
 import RelatedProducts from "@/components/product/RelatedProducts";
@@ -111,7 +112,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       {product.description && (
         <div className="mt-12 max-w-3xl">
           <h2 className="mb-3 text-xl font-bold text-slate-800">Descrição</h2>
-          <p className="leading-relaxed text-slate-600">{product.description}</p>
+          <RichDescription text={product.description} />
         </div>
       )}
 

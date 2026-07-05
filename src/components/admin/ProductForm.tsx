@@ -355,10 +355,16 @@ export default function ProductForm({
           <label className="mb-1 block text-sm font-medium text-slate-700">Descrição completa</label>
           <textarea
             name="description"
-            rows={4}
+            rows={12}
             defaultValue={product?.description ?? ""}
             className="w-full rounded-md border border-slate-300 px-3 py-2 text-sm"
           />
+          <p className="mt-1 text-xs text-slate-400">
+            Dica: comece uma linha com <span className="font-mono">--</span> para criar um título de seção, igual no
+            site antigo. Ex: <span className="font-mono">--APLICAÇÕES GERAIS</span>, <span className="font-mono">--DETALHES DO PRODUTO</span>,{" "}
+            <span className="font-mono">--OBSERVAÇÕES</span>. Pode colar a descrição inteira de um produto antigo
+            direto aqui.
+          </p>
         </div>
 
         <div className="sm:col-span-2">
