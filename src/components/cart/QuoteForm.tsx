@@ -6,6 +6,7 @@ import { useCart } from "@/context/CartContext";
 import { BR_STATES } from "@/lib/br-states";
 import { CheckCircle2, Loader2 } from "lucide-react";
 import { maskDocument, maskPhone } from "@/lib/masks";
+import { trackQuoteConversion } from "@/lib/gtag";
 
 export default function QuoteForm() {
   const { items, clearCart } = useCart();
@@ -62,6 +63,7 @@ export default function QuoteForm() {
       });
       if (!res.ok) throw new Error("Falha ao enviar cotação");
 
+      trackQuoteConversion();
       setSuccess(true);
       clearCart();
       setTimeout(() => router.push("/"), 3000);
